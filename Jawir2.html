@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Javascript Data Pegawai</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2a6c1;
+        }
+        tfoot {
+            font-weight: bold;
+            background-color: #f7c6d0;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Data Pegawai</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+                <th>Total Gaji</th>
+            </tr>
+        </thead>
+        <tbody id="dataPegawai">
+            <!-- Data pegawai akan dimasukkan lewat JavaScript -->
+        </tbody>
+        <tfoot id="totalGaji">
+            <!-- Total gaji akan dihitung lewat JavaScript -->
+        </tfoot>
+    </table>
+
+    <script>
+        // Data pegawai
+        const pegawai = {
+            nama: "Dodi Prayodi",
+            umur: 25,
+            jabatan: "Manajer",
+            status: "Menikah"
+        };
+
+        // Hitung gaji pokok berdasarkan jabatan (if)
+        let gajiPokok = 0;
+        if (pegawai.jabatan === "Manajer") {
+            gajiPokok = 15000000;
+        } else if (pegawai.jabatan === "Asisten Manajer") {
+            gajiPokok = 10000000;
+        } else if (pegawai.jabatan === "Staff") {
+            gajiPokok = 5000000;
+        }
+
+        // Hitung tunjangan jabatan (15% dari gaji pokok)
+        let tunjanganJabatan = 0.15 * gajiPokok;
+
+        // Hitung BPJS (10% dari gaji pokok)
+        let bpjs = 0.10 * gajiPokok;
+
+        // Hitung tunjangan keluarga (ternary operator)
+        let tunjanganKeluarga = (pegawai.status.toLowerCase() === "menikah") ? 0.20 * gajiPokok : 0;
+
+        // Total gaji
+        let totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+
+        // Tampilkan data pegawai di tabel
+        const tbody = document.getElementById("dataPegawai");
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${pegawai.nama}</td>
+            <td>${pegawai.umur}</td>
+            <td>${pegawai.jabatan}</td>
+            <td>${pegawai.status}</td>
+            <td>Rp ${gajiPokok.toLocaleString()}</td>
+            <td>Rp ${tunjanganJabatan.toLocaleString()}</td>
+            <td>Rp ${bpjs.toLocaleString()}</td>
+            <td>Rp ${tunjanganKeluarga.toLocaleString()}</td>
+            <td>Rp ${totalGaji.toLocaleString()}</td>
+        `;
+        tbody.appendChild(tr);
+
+        // Tampilkan total gaji di tfoot
+        const tfoot = document.getElementById("totalGaji");
+        const trTotal = document.createElement("tr");
+        trTotal.innerHTML = `
+            <td colspan="8">Total Gaji</td>
+            <td>Rp ${totalGaji.toLocaleString()}</td>
+        `;
+        tfoot.appendChild(trTotal);
+    </script>
+</body>
+</html>
