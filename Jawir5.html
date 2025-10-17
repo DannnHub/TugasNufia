@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Produk JS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffe6f2;
+      color: #333;
+      margin: 30px;
+    }
+    h2 {
+      text-align: center;
+      color: #d63384;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #ffb3d9;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      background-color: #ff66a3;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+  </style>
+</head>
+<body>
+
+  <h2> Manajemen Produk Toko Online</h2>
+
+  <div>
+    <button id="tambahBtn">Tambah Produk</button>
+    <button id="hapusBtn">Hapus Produk</button>
+    <button id="tampilBtn">Tampilkan Semua Produk</button>
+  </div>
+
+  <table id="produkTable">
+    <thead>
+      <tr>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Kategori</th>
+      </tr>
+    </thead>
+    <tbody id="produkBody"></tbody>
+  </table>
+
+  <script>
+    // Data awal (pakai Spread untuk membuat salinan)
+    let produkAwal = [
+      { nama: "Sepeda BMX", harga: 1500000, kategori: "Olahraga" },
+      { nama: "Laptop Acer", harga: 7000000, kategori: "Elektronik" },
+      { nama: "Mouse Logitech", harga: 250000, kategori: "Aksesoris" },
+      { nama: "Kaos Polos", harga: 75000, kategori: "Fashion" },
+      { nama: "Kopi Arabica", harga: 120000, kategori: "Minuman" }
+    ];
+
+    let produkList = [...produkAwal]; // Spread Operator
+
+    // Fungsi menampilkan semua produk
+    function tampilkanProduk() {
+      const tbody = document.getElementById("produkBody");
+      tbody.innerHTML = "";
+      produkList.forEach(({ nama, harga, kategori }) => { // Destructuring
+        let row = `<tr>
+                    <td>${nama}</td>
+                    <td>Rp ${harga.toLocaleString()}</td>
+                    <td>${kategori}</td>
+                  </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Fungsi menambah produk baru
+    function tambahProduk() {
+      const nama = prompt("Masukkan nama produk:");
+      const harga = parseInt(prompt("Masukkan harga produk:"));
+      const kategori = prompt("Masukkan kategori produk:");
+
+      if (nama && harga && kategori) {
+        produkList = [...produkList, { nama, harga, kategori }]; // Spread Operator
+        alert(`Produk "${nama}" berhasil ditambahkan!`);
+        tampilkanProduk();
+      } else {
+        alert("Input tidak boleh kosong!");
+      }
+    }
+
+    // Fungsi menghapus produk (pakai Rest Parameter)
+    function hapusProduk(...args) {
+      const namaHapus = prompt("Masukkan nama produk yang ingin dihapus:");
+      const index = produkList.findIndex(p => p.nama.toLowerCase() === namaHapus.toLowerCase());
+
+      if (index !== -1) {
+        produkList.splice(index, 1, ...args); // Rest parameter untuk fleksibilitas
+        alert(`Produk "${namaHapus}" telah dihapus.`);
+        tampilkanProduk();
+      } else {
+        alert("Produk tidak ditemukan!");
+      }
+    }
+
+    // Event Listener tombol
+    document.getElementById("tambahBtn").addEventListener("click", tambahProduk);
+    document.getElementById("hapusBtn").addEventListener("click", hapusProduk);
+    document.getElementById("tampilBtn").addEventListener("click", tampilkanProduk);
+
+    // Tampilkan data awal saat halaman dimuat
+    tampilkanProduk();
+  </script>
+
+</body>
+</html>
