@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Transportasi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe4ec;
+            color: #333;
+            margin: 40px;
+        }
+        h1 {
+            color: #d63384;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-width: 500px;
+            margin: auto;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #d63384;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c2185b;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sistem Manajemen Transportasi</h1>
+
+    <div class="container">
+        <h3>Form Penyewaan Kendaraan</h3>
+        <label>Nama Pelanggan:</label>
+        <input type="text" id="nama" placeholder="Masukkan nama pelanggan">
+
+        <label>Nomor Telepon:</label>
+        <input type="number" id="telepon" placeholder="Masukkan nomor telepon">
+
+        <label>Pilih Kendaraan:</label>
+        <select id="kendaraan">
+            <option value="">-- Pilih Kendaraan --</option>
+            <option value="Mobil - Toyota Avanza">Mobil - Toyota Avanza</option>
+            <option value="Motor - Honda Beat">Motor - Honda Beat</option>
+            <option value="Sepeda - BMX">Sepeda - BMX</option>
+        </select>
+
+        <button onclick="tambahPelanggan()">Sewa Kendaraan</button>
+
+        <h3>Daftar Pelanggan yang Menyewa:</h3>
+        <ul id="daftarPelanggan"></ul>
+    </div>
+
+    <script>
+        // Class Kendaraan
+        class Kendaraan {
+            constructor(jenis, merk) {
+                this.jenis = jenis;
+                this.merk = merk;
+            }
+
+            infoKendaraan() {
+                return `${this.jenis} ${this.merk}`;
+            }
+        }
+
+        // Class Pelanggan
+        class Pelanggan {
+            constructor(nama, nomorTelepon, kendaraanDisewa = null) {
+                this.nama = nama;
+                this.nomorTelepon = nomorTelepon;
+                this.kendaraanDisewa = kendaraanDisewa;
+            }
+
+            sewaKendaraan(kendaraan) {
+                this.kendaraanDisewa = kendaraan;
+            }
+
+            infoPelanggan() {
+                return `${this.nama} (${this.nomorTelepon}) menyewa ${this.kendaraanDisewa.infoKendaraan()}`;
+            }
+        }
+
+        // Class Sistem Transportasi
+        class SistemTransportasi {
+            constructor() {
+                this.daftarPelanggan = [];
+            }
+
+            tambahPelanggan(pelanggan) {
+                this.daftarPelanggan.push(pelanggan);
+            }
+
+            tampilkanDaftarSewa() {
+                const daftar = document.getElementById("daftarPelanggan");
+                daftar.innerHTML = "";
+
+                this.daftarPelanggan.forEach((p) => {
+                    const li = document.createElement("li");
+                    li.textContent = p.infoPelanggan();
+                    daftar.appendChild(li);
+                });
+            }
+        }
+
+        // Inisialisasi sistem
+        const sistem = new SistemTransportasi();
+
+        // Fungsi untuk menambah pelanggan baru
+        function tambahPelanggan() {
+            const nama = document.getElementById("nama").value;
+            const telepon = document.getElementById("telepon").value;
+            const kendaraanValue = document.getElementById("kendaraan").value;
+
+            if (!nama || !telepon || !kendaraanValue) {
+                alert("Harap isi semua data terlebih dahulu!");
+                return;
+            }
+
+            // Pisahkan jenis dan merk kendaraan
+            const [jenis, merk] = kendaraanValue.split(" - ");
+            const kendaraan = new Kendaraan(jenis, merk);
+            const pelanggan = new Pelanggan(nama, telepon);
+            pelanggan.sewaKendaraan(kendaraan);
+
+            sistem.tambahPelanggan(pelanggan);
+            sistem.tampilkanDaftarSewa();
+
+            // Reset form
+            document.getElementById("nama").value = "";
+            document.getElementById("telepon").value = "";
+            document.getElementById("kendaraan").value = "";
+        }
+    </script>
+</body>
+</html>
