@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online Sederhana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffeef5;
+            padding: 20px;
+        }
+        h2 {
+            color: #e91e63;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f48fb1;
+            color: white;
+        }
+        button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hapus {
+            background-color: #f44336;
+            color: white;
+        }
+        .tambah {
+            background-color: #4caf50;
+            color: white;
+        }
+        form {
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            width: 300px;
+        }
+        input {
+            width: 90%;
+            padding: 6px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>🛒 Daftar Produk Toko</h2>
+    <div id="tabelProduk"></div>
+
+    <h3>➕ Tambah Produk Baru</h3>
+    <form id="formTambah">
+        <input type="text" id="namaProduk" placeholder="Nama produk" required><br>
+        <input type="number" id="hargaProduk" placeholder="Harga (Rp)" required><br>
+        <input type="number" id="stokProduk" placeholder="Stok" required><br>
+        <button type="submit" class="tambah">Tambah Produk</button>
+    </form>
+
+    <script>
+        let produkToko = [
+            {id: 1, nama: "Laptop", harga: 7000000, stok: 5},
+            {id: 2, nama: "Mouse", harga: 200000, stok: 10},
+            {id: 3, nama: "Keyboard", harga: 350000, stok: 7}
+        ];
+
+        // Tampilkan produk di tabel
+        function tampilkanProduk() {
+            if (produkToko.length === 0) {
+                document.getElementById("tabelProduk").innerHTML = "<p><i>Tidak ada produk saat ini.</i></p>";
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            produkToko.forEach(p => {
+                html += `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td>${p.nama}</td>
+                        <td>Rp ${p.harga.toLocaleString('id-ID')}</td>
+                        <td>${p.stok}</td>
+                        <td><button class="hapus" onclick="hapusProduk(${p.id})">Hapus</button></td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            document.getElementById("tabelProduk").innerHTML = html;
+        }
+
+        // Fungsi hapus produk berdasarkan ID
+        function hapusProduk(id) {
+            let index = produkToko.findIndex(p => p.id === id);
+            if (index !== -1) {
+                let hapus = produkToko.splice(index, 1);
+                alert(`Produk "${hapus[0].nama}" telah dihapus.`);
+            }
+            tampilkanProduk();
+        }
+
+        // Fungsi tambah produk dari form
+        document.getElementById("formTambah").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let nama = document.getElementById("namaProduk").value;
+            let harga = parseInt(document.getElementById("hargaProduk").value);
+            let stok = parseInt(document.getElementById("stokProduk").value);
+
+            let idBaru = produkToko.length > 0 ? produkToko[produkToko.length - 1].id + 1 : 1;
+            produkToko.push({id: idBaru, nama, harga, stok});
+
+            alert(`Produk "${nama}" berhasil ditambahkan!`);
+
+            // Reset form
+            document.getElementById("formTambah").reset();
+            tampilkanProduk();
+        });
+
+        // Tampilan pertama
+        tampilkanProduk();
+    </script>
+</body>
+</html>
