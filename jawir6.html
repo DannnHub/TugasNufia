@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tugas Array of Object</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffe4f2;
+      text-align: center;
+      padding: 30px;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    th {
+      background-color: #ff66a3;
+      color: white;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #ff66a3;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tugas 6 JavaScript - Array of Object</h2>
+
+  <div>
+    <button onclick="tampilkanData()">Lihat Data</button>
+    <button onclick="tambahData()">Tambah Data</button>
+    <button onclick="hapusData()">Hapus Data Terakhir</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama</th>
+        <th>Umur</th>
+        <th>Alamat</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="output">
+      <!-- data ditampilkan di sini -->
+    </tbody>
+  </table>
+
+  <script src="data.js"></script>
+  <script src="controller.js"></script>
+</body>
+</html>
